@@ -5,7 +5,7 @@ import requests
 
 
 urls=st.text_area(label='Enter Urls',placeholder='Enter Urls Seperated By Comma')
-
+lines = urls.split("\n")
 
 auth = ('mozscape-b4a2d301dd', '9e00ec0901b395044bc485fef2215fe3')
 url = "https://lsapi.seomoz.com/v2/url_metrics"
@@ -17,7 +17,7 @@ try:
 except KeyError:
      st.error('Enter Atleast One Url')
 
-button = st.button('SaveFile')
+button = st.button('Get Spam Scores')
 if button:
      df.to_csv('spam_score.csv', index=False)
 
