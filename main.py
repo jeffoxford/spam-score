@@ -17,25 +17,17 @@ try:
 except KeyError:
      st.error('Enter Atleast One Url')
 
-button = st.button('Get Spam Scores')
-if button:
-     df.to_csv('spam_score.csv', index=False)
+@st.cache
+def convert_df(df):
+     return df.to_csv(index=False).encode('utf-8')
 
-
-# uploaded_file = st.file_uploader("Choose a file",type=['txt'])
-# if uploaded_file is not None:
-#      # To read file as bytes:
-#      bytes_data = uploaded_file.getvalue()
-#
-#      st.write(bytes_data.decode('utf-8'))
-#
-#      auth = ('mozscape-b4a2d301dd', '9e00ec0901b395044bc485fef2215fe3')
-#      url = "https://lsapi.seomoz.com/v2/url_metrics"
-#      request = requests.post(url, data=bytes_data.decode('utf-8'), auth=auth)
-#
-#      df=pd.DataFrame((request.json()['results']))[['page','spam_score']]
-#
-#      button=st.button('SaveFile')
-#
-#      if button:
-#           df.to_csv('spam_score.csv',index=False)
+try:
+     csv = convert_df(df)
+     st.download_button(
+          label="Get Spam Scores",
+          data=csv,
+          file_name='spam_score.csv',
+          mime='text/csv',
+     )
+except NameError:
+     st.error("Write Urls")
