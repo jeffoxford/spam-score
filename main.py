@@ -7,9 +7,9 @@ import requests
 urls=st.text_area(label='Enter Urls',placeholder='Enter Urls Seperated By Comma')
 lines = urls.split("\n")
 
-auth = ('mozscape-b4a2d301dd', '9e00ec0901b395044bc485fef2215fe3')
+auth = (st.secrets['api_key1'], st.secrets['api_key2'])
 url = "https://lsapi.seomoz.com/v2/url_metrics"
-data = {"targets":urls.split(',')}
+data = {"targets":lines}
 request = requests.post(url, json=data, auth=auth)
 
 try:
@@ -31,3 +31,4 @@ try:
      )
 except NameError:
      st.error("Write Urls")
+
