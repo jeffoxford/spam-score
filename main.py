@@ -2,9 +2,9 @@ import streamlit as st
 import pandas as pd
 import requests
 
+st.title("Url Spam Score")
 
-
-urls=st.text_area(label='Enter Urls',placeholder='Enter Urls Seperated By Comma')
+urls=st.text_area(label='Enter Urls',placeholder='Enter URLs (1 per line)')
 lines = urls.split("\n")
 
 auth = (st.secrets['api_key1'], st.secrets['api_key2'])
@@ -15,11 +15,13 @@ request = requests.post(url, json=data, auth=auth)
 try:
      df = pd.DataFrame((request.json()['results']))[['page', 'spam_score']]
 except KeyError:
-     st.error('Enter Atleast One Url')
+     print("??")
 
 @st.cache
 def convert_df(df):
      return df.to_csv(index=False).encode('utf-8')
+
+
 
 try:
      csv = convert_df(df)
@@ -29,5 +31,8 @@ try:
           file_name='spam_score.csv',
           mime='text/csv',
      )
-except NameError:
-     st.error("Write Urls")
+except:
+     print("?")
+
+
+
